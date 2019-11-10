@@ -42,13 +42,13 @@ FLAGS:
         --verse      Sets output to verse mode, defaults to prose
     -V, --version    Prints version information
 
-    OPTIONS:
-        -b, --buffer-size <buffer_size>          The size of the buffer to be
-                                                 analyzed. The larger this is the
-                                                 slower the output will appear
-        -l, --line-width <line_width>            Approximate line length to output
-        -o, --output-size <out_chars>            Number of characters to output
-        -p, --pattern-length <pattern_length>    Pattern Length
+OPTIONS:
+    -b, --buffer-size <buffer_size>          The size of the buffer to be
+                                             analyzed. The larger this is the
+                                             slower the output will appear
+    -l, --line-width <line_width>            Approximate line length to output
+    -o, --output-size <out_chars>            Number of characters to output
+    -p, --pattern-length <pattern_length>    Pattern Length
 
 ARGS:
     <INPUT>    Sets the input file to use
