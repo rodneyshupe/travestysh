@@ -28,8 +28,7 @@ declare -g arg_debug=${FALSE}
 declare -g arg_input_file="/dev/stdin"
 
 function usage() {
-  cat <<EOF
-${TRAVESTY} ${VERSION}
+  echo "${TITLE} ${VERSION}
 ${AUTHOR}
 ${ABOUT}
 
@@ -52,7 +51,7 @@ OPTIONS:
 
 ARGS:
     <INPUT>    Sets the input file to use
-EOF
+"
 }
 
 function parse_arguments() {
@@ -140,7 +139,7 @@ function travesty() {
   # FreqArray is indexed by 93 probable ASCII characters, from ASCII_SPACE to ASCII_DEL.
   # Its elements are all set to zero.
   function clear_freq_array() {
-    for ch in $(seq ${ASCII_SPACE} ${ASCII_DEL}); do
+    for (( ch=${ASCII_SPACE}; ch<=${ASCII_DEL}; ch++ )); do
       freq_array[${ch}]=0
     done
   }
@@ -151,9 +150,9 @@ function travesty() {
   # as the pattern_length, in effect wrapping the end to the beginning.
   function fill_array() {
     echo "Reading from: ${input_file}"
-    buffer="$(cat "${input_file}")"
+    buffer="$(<"${input_file}")"
     local buffer_array_tmp="$(echo ${buffer//\\s\{2,\}\|\\n/ /})"
-    buffer_array="${buffer_array_tmp:0:$((${buffer_size}-$((${pattern_length}+1)) ))} ${buffer_array_tmp:0:${pattern_length}}"
+    buffer_array="${buffer_array_tmp:0:$(( ${buffer_size} - $(( ${pattern_length} + 1 )) ))} ${buffer_array_tmp:0:${pattern_length}}"
 
     echo "Characters read, plus wraparound = ${#buffer_array}"
   }
@@ -176,13 +175,13 @@ function travesty() {
   # text, stopping only at locations whose character matches the first character
   # in Pattern.
   function init_skip_array() {
-    for ch in $(seq ${ASCII_SPACE} ${ASCII_DEL}); do
+    for (( ch=${ASCII_SPACE}; ch<=${ASCII_DEL}; ch++ )); do
       start_skip["$ch"]=${#buffer_array}
     done
-    for j in $(seq ${#buffer_array} 1); do
-      ch=${buffer_array:$(($j-1)):1}
+    for (( j=${#buffer_array}; j>=1; j-- )); do
+      ch=${buffer_array:$(($j - 1)):1}
       local ch_val=$(ascii "$ch")
-      skip_array[$(( $j -1 ))]=${start_skip[$ch_val]}
+      skip_array[$(( $j - 1 ))]=${start_skip[$ch_val]}
       start_skip[$ch_val]=$j
     done
   }
@@ -195,13 +194,13 @@ function travesty() {
   function match_pattern() {
     local -r ch="${pattern:0:1}"
     local ch_val=$(ascii "$ch")
-    i=$((${start_skip[${ch_val}]} - 1))              # i is 1 to left of the Match start
-    while (( $i <= $((${#buffer_array} - ${pattern_length} - 1)) )); do
+    i=$(( ${start_skip[${ch_val}]} - 1 ))              # i is 1 to left of the Match start
+    while (( $i <= $(( ${#buffer_array} - ${pattern_length} - 1 )) )); do
       if [[ "${buffer_array:$i:${pattern_length}}" == "${pattern}" ]] ; then
         next_char_val=$(ascii "${buffer_array:$(( $i + $pattern_length )):1}")
-        freq_array[$next_char_val]=$((${freq_array[$next_char_val]}+1))
+        freq_array[$next_char_val]=$(( ${freq_array[$next_char_val]} + 1 ))
       fi
-      i=$((${skip_array[${i}]}-1))
+      i=$(( ${skip_array[${i}]} - 1 ))
     done
   }
 
@@ -209,18 +208,18 @@ function travesty() {
   # last scan of input.
   function get_next_char() {
     total=0
-    for ch in $(seq ${ASCII_SPACE} ${ASCII_DEL}); do
+    for (( ch=${ASCII_SPACE}; ch<=${ASCII_DEL}; ch++ )); do
       total=$(( ${total} + ${freq_array[$ch]} )) # Sum counts in FreqArray
     done
 
     toss=$(( $(( $RANDOM % $total )) + 1 ))
-    counter=$(($ASCII_SPACE-1))
+    counter=$(( $ASCII_SPACE - 1 ))
     while [ $toss -gt 0 ]; do
-        counter=$(( $counter + 1))
+        counter=$(( $counter + 1 ))
         if [[ $toss -gt ${freq_array[$counter]} ]]; then
           test=${freq_array[$counter]}
           if [[ -v test ]]; then
-            toss=$(($toss-${freq_array[$counter]}))
+            toss=$(( $toss - ${freq_array[$counter]} ))
           fi
         else
             toss=0
@@ -273,12 +272,13 @@ function travesty() {
     echo -n "buffer_array Size=${#buffer_array} "
     echo ""
     echo ""
+
     if (( ${show_buffer} == ${TRUE} )); then
       echo "Buffer Data:"
       echo ${buffer}
       echo ""
     fi
-echo "\$show_buffer_array=${show_buffer_array}"
+
     if (( ${show_buffer_array} == ${TRUE} )); then
       echo "buffer_array:"
       echo "${buffer_array}"
