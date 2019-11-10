@@ -57,7 +57,7 @@ USAGE:
     travestyrs [FLAGS] [OPTIONS] [INPUT]
 
 FLAGS:
-    -d, --debug      Number of characters to output.
+    -d, --debug      Print debugging info
     -h, --help       Prints help information
         --verse      Sets output to verse mode, defaults to prose
     -V, --version    Prints version information
