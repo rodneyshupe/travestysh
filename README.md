@@ -74,6 +74,14 @@ ARGS:
     <INPUT>    Sets the input file to use
 ```
 
-## Attributions:
-* `sample.txt` - Extract from [bbejeck](https://github.com/bbejeck/hadoop-algorithms/blob/master/src/shakespeare.txt)
-* `adventure.txt` - Extract from Crowther, Will, and D. Woods. [Adventure](http://mirror.ifarchive.org/if-archive/games/source/adv350-pdp10.tar.gz) (aka "ADVENT" and "Colossal Cave") FORTRAN source code. 1977.
+## Attributions
+* `sample.txt` - Extract of sonets from
+  [bbejeck](https://github.com/bbejeck/hadoop-algorithms/blob/master/src/shakespeare.txt)'s
+  *Complete Works of Shakespeare* text file.
+* `adventure.txt` - Extract from Crowther, Will, and D. Woods.
+  [Adventure](http://mirror.ifarchive.org/if-archive/games/source/adv350-pdp10.tar.gz)
+  (aka "ADVENT" and "Colossal Cave") FORTRAN source code. 1977.
+
+## Credits
+* For some great "pure" Bash tips see the
+  [*Pure Bash Bible*](https://github.com/dylanaraps/pure-bash-bible#loop-over-a-variable-range-of-numbers)
