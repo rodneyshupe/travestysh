@@ -149,7 +149,7 @@ function travesty() {
   # Once read it then copies to end of array a string of its opening characters as long
   # as the pattern_length, in effect wrapping the end to the beginning.
   function fill_array() {
-    echo "Reading from: ${input_file}"
+    echo "Reading from: ${input_file}..."
     buffer="$(<"${input_file}")"
     local buffer_array_tmp="$(echo ${buffer//\\s\{2,\}\|\\n/ /})"
     buffer_array="${buffer_array_tmp:0:$(( ${buffer_size} - $(( ${pattern_length} + 1 )) ))} ${buffer_array_tmp:0:${pattern_length}}"
